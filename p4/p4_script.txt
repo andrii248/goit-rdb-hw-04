@@ -1,0 +1,108 @@
+1. Визначте, скільки рядків ви отримали (за допомогою оператора COUNT).
+SELECT COUNT(*) AS total
+FROM order_details
+INNER JOIN orders ON order_details.order_id = orders.id
+INNER JOIN customers ON orders.customer_id = customers.id
+INNER JOIN products ON order_details.product_id = products.id
+INNER JOIN categories ON products.category_id = categories.id
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN shippers ON orders.shipper_id = shippers.id
+INNER JOIN suppliers ON products.supplier_id = suppliers.id
+
+
+2. Змініть декілька операторів INNER на LEFT чи RIGHT. Визначте, що відбувається з кількістю рядків. Чому? Напишіть відповідь у текстовому файлі.
+
+LEFT JOIN:
+SELECT COUNT(*) AS total
+FROM order_details
+LEFT JOIN orders ON order_details.order_id = orders.id
+INNER JOIN customers ON orders.customer_id = customers.id
+LEFT JOIN products ON order_details.product_id = products.id
+INNER JOIN categories ON products.category_id = categories.id
+LEFT JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN shippers ON orders.shipper_id = shippers.id
+LEFT JOIN suppliers ON products.supplier_id = suppliers.id
+
+Виконання LEFT JOIN:
+В даному випадку кількість рядкув залишилась незмінною в порівнянні з попереднім запитом INNER JOIN для всіх таблиць.
+Тобто були знайдені співпадіння з лівої та правої таблиць. Навіть якби співпадінь у правій таблиці не було б знайдено,
+то вони були б заміщені на NULL у лівій.
+
+RIGHT JOIN:
+SELECT COUNT(*) AS total
+FROM order_details
+RIGHT JOIN orders ON order_details.order_id = orders.id
+INNER JOIN customers ON orders.customer_id = customers.id
+RIGHT JOIN products ON order_details.product_id = products.id
+INNER JOIN categories ON products.category_id = categories.id
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN shippers ON orders.shipper_id = shippers.id
+INNER JOIN suppliers ON products.supplier_id = suppliers.id
+
+Виконання RIGHT JOIN:
+В даному випадку кількість також залишилась незмінною в порівнянні із запитом INNER JOIN для всіх таблиць.
+Аналогічно запиту LEFT JOIN, виконавши RIGHT JOIN було знайдено відповідності в правій та лівій таблицях.
+Якби співпадінь у лівій таблиці не було б знайдено, то вони були б заміщені на NULL в правій.
+
+
+3. Оберіть тільки ті рядки, де employee_id > 3 та ≤ 10:
+SELECT COUNT(*) AS total
+FROM order_details
+INNER JOIN orders ON order_details.order_id = orders.id
+INNER JOIN customers ON orders.customer_id = customers.id
+INNER JOIN products ON order_details.product_id = products.id
+INNER JOIN categories ON products.category_id = categories.id
+INNER JOIN employees ON orders.employee_id = employees.employee_id
+INNER JOIN shippers ON orders.shipper_id = shippers.id
+INNER JOIN suppliers ON products.supplier_id = suppliers.id
+WHERE employees.employee_id > 3 AND employees.employee_id <= 10
+
+
+4. Згрупуйте за іменем категорії, порахуйте кількість рядків у групі, середню кількість товару (кількість товару знаходиться в order_details.quantity):
+SELECT 
+    categories.name AS category_name,
+    COUNT(*) AS total_rows,
+    AVG(quantity) as average_qty 
+FROM order_details
+INNER JOIN products ON products.id = order_details.product_id
+INNER JOIN categories ON categories.id = products.category_id
+GROUP BY categories.name
+
+
+5. Відфільтруйте рядки, де середня кількість товару більша за 21.
+SELECT 
+    categories.name AS category_name,
+    COUNT(*) AS total_rows,
+    AVG(quantity) as average_qty 
+FROM order_details
+INNER JOIN products ON products.id = order_details.product_id
+INNER JOIN categories ON categories.id = products.category_id
+GROUP BY categories.name
+HAVING average_qty > 21
+
+
+6. Відсортуйте рядки за спаданням кількості рядків.
+SELECT 
+    categories.name AS category_name,
+    COUNT(*) AS total_rows,
+    AVG(quantity) as average_qty 
+FROM order_details
+INNER JOIN products ON products.id = order_details.product_id
+INNER JOIN categories ON categories.id = products.category_id
+GROUP BY categories.name
+HAVING average_qty > 21
+ORDER BY total_rows desc
+
+
+7. Виведіть на екран (оберіть) чотири рядки з пропущеним першим рядком:
+SELECT 
+    categories.name AS category_name,
+    COUNT(*) AS total_rows,
+    AVG(quantity) as average_qty 
+FROM order_details
+INNER JOIN products ON products.id = order_details.product_id
+INNER JOIN categories ON categories.id = products.category_id
+GROUP BY categories.name
+HAVING average_qty > 21
+ORDER BY total_rows desc
+LIMIT 4 OFFSET 1

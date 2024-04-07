@@ -1,0 +1,28 @@
+p2 - заповнення таблиці "authors":
+INSERT INTO authors (author_name) VALUES
+('Bob Johnson'),
+('Emily Davis')
+
+
+p2 - заповнення таблиці "genres":
+INSERT INTO genres (genre_name) VALUES
+('Mystery'),
+('Fantasy')
+
+
+p2 - заповнення таблиці "books":
+INSERT INTO users (username, email) VALUES
+('sam_jones', 'sam.jones@example.com'),
+('emily_brown', 'emily.brown@example.com');
+
+
+p2 - заповнення таблиці "users":
+INSERT INTO users (username, email) VALUES
+('sam_jones', 'sam.jones@example.com'),
+('emily_brown', 'emily.brown@example.com');
+
+
+p2 - заповнення таблиці "users":
+INSERT INTO borrowed_books (book_id, user_id, borrow_date, return_date) VALUES
+(5, 1, '2024-04-01', '2024-04-15'),
+(6, 2, '2024-03-20', '2024-04-10');
